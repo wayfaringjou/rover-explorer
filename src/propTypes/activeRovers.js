@@ -17,7 +17,7 @@ const roverTypes = PropTypes.shape({
   data: roverDataTypes,
   fetchData: PropTypes.func,
   setRoverData: PropTypes.func,
-  displayRoverData: PropTypes.func,
+  getData: PropTypes.func,
 });
 
 export default PropTypes.shape({

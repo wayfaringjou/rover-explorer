@@ -31,16 +31,20 @@ export const activeRover = ({ name = '', data = null } = {}) => ({
       return Promise.reject(error);
     }
   },
-  displayRoverData(keys = []) {
+  getData(keys = []) {
     if (keys.length) {
       if (this.data) {
         if (!(keys in this.data)) {
           const wrongKeys = keys.filter((key) => !(key in this.data));
           throw new Error(`Missing in data: ${wrongKeys.join(', ')}`);
         }
-        return keys
+        const parsedData = keys
           .reduce((selected, key) => (this.data[key]
             ? { ...selected, [key]: this.data[key] } : selected), {});
+
+        if (Object.keys(parsedData).length === 1) return Object.values(parsedData)[0];
+
+        return parsedData;
       }
     }
     return this.data;
