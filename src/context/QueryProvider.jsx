@@ -5,14 +5,14 @@ import activeRoverTypes from '../propTypes/activeRovers';
 export const QueryContext = React.createContext();
 
 const QueryProvider = ({ children, activeRovers }) => {
-  const [query, setQuery] = React.useState('');
+  const [query, setQuery] = React.useState([]);
   const [selectedRover, setSelectedRover] = React.useState(activeRovers.curiosity);
   const [loadedPhotos, setLoadedPhotos] = React.useState('');
 
   React.useEffect(() => {
-    if (query && selectedRover) {
+    /* if (query.lenght && selectedRover) {
       setLoadedPhotos(activeRovers(selectedRover));
-    }
+    } */
   }, [query, activeRovers]);
 
   const value = {

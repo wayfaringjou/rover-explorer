@@ -1,6 +1,22 @@
-/* eslint-disable camelcase */
 import * as React from 'react';
+import dayjs from 'dayjs';
+
 import { QueryContext } from '../../context/QueryProvider';
+
+const assembleQueries = (
+  event, {
+    dateType = null, sol = null, earth_date = null, camera = null,
+  }, callback,
+) => {
+  event.preventDefault();
+  const queries = [];
+
+  if (dateType === 'sol' && sol) queries.push(`sol=${sol}`);
+  if (dateType === 'earth' && earth_date) queries.push(`earth_date=${earth_date}`);
+  if (camera) queries.push(`camera=${camera}`);
+
+  callback(queries);
+};
 
 const SearchPanel = () => {
   const {
@@ -9,54 +25,87 @@ const SearchPanel = () => {
     selectedRoverState: [selectedRover, setSelectedRover],
   } = React.useContext(QueryContext);
 
+  const [camera, setCamera] = React.useState('');
+  const [dateType, setDateType] = React.useState('sol');
   const [sol, setSol] = React.useState(0);
   const [earthDate, setEarthDate] = React.useState('');
-  const [dateType, setDateType] = React.useState('');
+
+  React.useEffect(() => {
+    if (selectedRover?.data?.landing_date) {
+      setEarthDate(selectedRover.data.landing_date);
+    }
+    if (selectedRover?.data?.cameras) {
+      setCamera('');
+    }
+  }, [selectedRover, selectedRover?.data]);
 
   if (!selectedRover.data) {
     return <p>Loading Data</p>;
   }
-
   const {
-    name,
-    data: { max_sol, landing_date, max_date },
+    data: {
+      name, cameras, max_sol, landing_date, max_date,
+    },
   } = selectedRover;
+
+  const parameters = {
+    dateType, sol, earth_date: earthDate, camera,
+  };
 
   return (
     <article id="search-panel">
-      <form id="search-photos">
-        <fieldset>
-          <legend>
-            Search mars photos
-          </legend>
+      <header>
+        <h2>Search mars photos</h2>
+      </header>
+      <form id="search-photos" onSubmit={(e) => assembleQueries(e, parameters, setQuery)}>
 
-          <label htmlFor="rover">
-            <select
-              name="rover"
-              id="rover"
-              onChange={({ target: { value } }) => {
-                setSelectedRover(activeRovers[value]);
+        <fieldset>
+          <legend>Select Rover:</legend>
+          {Object.keys(activeRovers).map((rover) => (
+            <button
+              key={rover}
+              type="button"
+              disabled={selectedRover.name === rover}
+              onClick={(e) => {
+                e.preventDefault();
+                setSelectedRover(activeRovers[rover]);
               }}
             >
-              {Object.keys(activeRovers).map((rover) => (
-                <option value={rover} key={rover}>
-                  {activeRovers[rover].data.name}
-                </option>
-              ))}
-            </select>
-          </label>
-          {/* TODO: manage radio with state and hide/disable non-selected type */}
-          <p>Select date type:</p>
+              {activeRovers[rover]?.data.name}
+            </button>
+          ))}
+        </fieldset>
+
+        <fieldset>
+          <legend>Select date type:</legend>
           <label htmlFor="sol-type">
-            <input type="radio" id="sol-type" name="date-type" value="sol" checked />
+            <input
+              type="radio"
+              id="sol-type"
+              name="date-type"
+              value="sol"
+              checked={dateType === 'sol'}
+              onChange={({ target: { value } }) => setDateType(value)}
+            />
             Sol
           </label>
           <label htmlFor="earth-type">
-            <input type="radio" id="earth-type" name="date-type" value="earth" />
+            <input
+              type="radio"
+              id="earth-type"
+              name="date-type"
+              value="earth"
+              checked={dateType === 'earth'}
+              onChange={({ target: { value } }) => setDateType(value)}
+            />
             Earth Date
           </label>
+        </fieldset>
+
+        {dateType === 'sol' && (
+        <fieldset disabled={dateType !== 'sol'}>
+          <legend>Search photos by &apos;sol&apos; (mission day):</legend>
           <label htmlFor="sol-range">
-            <p>Search photos by &apos;sol&apos; (mission day):</p>
             <p>{`${name} has photos from sol: 0 to sol: ${max_sol}`}</p>
             <input
               type="range"
@@ -76,20 +125,57 @@ const SearchPanel = () => {
               max={max_sol}
             />
           </label>
-
-          <label htmlFor="earth_date">
-            <p>Search photos by earth date:</p>
-            <p>{`${name} has photos from ${landing_date} to ${max_date}`}</p>
-            <input
-              type="date"
-              name="earth_date"
-              placeholder="Select date."
-              min={landing_date}
-              max={max_date}
-            />
-          </label>
-          <button type="submit">Search</button>
         </fieldset>
+        )}
+
+        {dateType === 'earth' && (
+          <fieldset disabled={dateType !== 'earth'}>
+            <legend>Search photos by earth date:</legend>
+            <label htmlFor="earth_date">
+              <p>{`${name} has photos from ${landing_date} to ${max_date}`}</p>
+              <input
+                type="date"
+                name="earth_date"
+                placeholder="Select date."
+                min={landing_date}
+                max={max_date}
+                disabled={dateType !== 'earth'}
+                onChange={({ target: { value } }) => setEarthDate(value)}
+                value={earthDate}
+              />
+            </label>
+          </fieldset>
+        )}
+
+        <fieldset>
+          <legend>Select Camera:</legend>
+          <button
+            key="all"
+            type="button"
+            disabled={camera === ''}
+            onClick={(e) => {
+              e.preventDefault();
+              setCamera('');
+            }}
+          >
+            All
+          </button>
+          { cameras.map((cam) => (
+            <button
+              key={cam.name}
+              type="button"
+              disabled={cam.name === camera}
+              onClick={(e) => {
+                e.preventDefault();
+                setCamera(cam.name);
+              }}
+            >
+              {cam.name}
+            </button>
+          ))}
+        </fieldset>
+        <hr />
+        <button type="submit">Search</button>
       </form>
     </article>
   );
