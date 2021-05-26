@@ -19,7 +19,7 @@ function App() {
   // Data about rovers is requested on load
   // Data is requested imperatively when search is done
   // Data is requested with intersectionObserver callback page by page
-  const activeRovers = React.useRef({
+  const [activeRovers, setActiveRovers] = React.useState({
     curiosity: activeRover({ name: 'curiosity' }),
     opportunity: activeRover({ name: 'opportunity' }),
     spirit: activeRover({ name: 'spirit' }),
@@ -27,10 +27,10 @@ function App() {
   });
 
   React.useEffect(() => {
-    if (activeRovers.current) {
+    if (activeRovers) {
       const {
         curiosity, opportunity, spirit, perseverance,
-      } = activeRovers.current;
+      } = activeRovers;
       Promise.allSettled([
         curiosity.setRoverData(),
         opportunity.setRoverData(),
@@ -42,12 +42,16 @@ function App() {
         if (rejected.length > 0) {
           throw new Error('Error fetching rover data, wait a while and try refreshing.');
         }
+
+        setActiveRovers({
+          curiosity, opportunity, spirit, perseverance,
+        });
       }).catch((error) => setErrors(error.message));
     }
-  }, [activeRovers.current]);
+  }, []);
 
   return (
-    <QueryProvider activeRovers={activeRovers.current}>
+    <QueryProvider activeRovers={activeRovers}>
       <div className="App">
         <ErrorMsg errorState={[errors, setErrors]} />
         <Header />

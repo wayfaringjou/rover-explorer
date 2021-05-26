@@ -1,6 +1,6 @@
 import config from '../config/api';
 
-export const activeRover = ({ name = '', data = {} } = {}) => ({
+export const activeRover = ({ name = '', data = null } = {}) => ({
   name,
   data,
   async fetchData(queries = [], subPath = '') {
@@ -25,8 +25,7 @@ export const activeRover = ({ name = '', data = {} } = {}) => ({
       const { rover, error } = await this.fetchData();
 
       if (error) throw error;
-
-      this.data = rover;
+      this.data = { ...rover };
       return this.data;
     } catch (error) {
       return Promise.reject(error);
@@ -34,13 +33,15 @@ export const activeRover = ({ name = '', data = {} } = {}) => ({
   },
   displayRoverData(keys = []) {
     if (keys.length) {
-      if (!(keys in this.data)) {
-        const wrongKeys = keys.filter((key) => !(key in this.data));
-        throw new Error(`Missing in data: ${wrongKeys.join(', ')}`);
+      if (this.data) {
+        if (!(keys in this.data)) {
+          const wrongKeys = keys.filter((key) => !(key in this.data));
+          throw new Error(`Missing in data: ${wrongKeys.join(', ')}`);
+        }
+        return keys
+          .reduce((selected, key) => (this.data[key]
+            ? { ...selected, [key]: this.data[key] } : selected), {});
       }
-      return keys
-        .reduce((selected, key) => (this.data[key]
-          ? { ...selected, [key]: this.data[key] } : selected), {});
     }
     return this.data;
   },

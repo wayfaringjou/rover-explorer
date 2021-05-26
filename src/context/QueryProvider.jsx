@@ -6,14 +6,14 @@ export const QueryContext = React.createContext();
 
 const QueryProvider = ({ children, activeRovers }) => {
   const [query, setQuery] = React.useState('');
-  const [selectedRover, setSelectedRover] = React.useState('');
+  const [selectedRover, setSelectedRover] = React.useState(activeRovers.curiosity);
   const [loadedPhotos, setLoadedPhotos] = React.useState('');
 
   React.useEffect(() => {
     if (query && selectedRover) {
       setLoadedPhotos(activeRovers(selectedRover));
     }
-  }, [query]);
+  }, [query, activeRovers]);
 
   const value = {
     queryState: [query, setQuery],

@@ -8,7 +8,7 @@ const roverDataTypes = PropTypes.shape({
   status: PropTypes.string,
   max_sol: PropTypes.number,
   max_date: PropTypes.string,
-  total_photos: PropTypes.string,
+  total_photos: PropTypes.number,
   cameras: PropTypes.arrayOf(PropTypes.object),
 });
 
