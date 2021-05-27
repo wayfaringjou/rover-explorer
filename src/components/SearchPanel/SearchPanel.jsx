@@ -10,12 +10,19 @@ const assembleQueries = (
 ) => {
   event.preventDefault();
   const queries = [];
-
-  if (dateType === 'sol' && sol) queries.push(`sol=${sol}`);
-  if (dateType === 'earth' && earth_date) queries.push(`earth_date=${earth_date}`);
+  console.log(dateType, sol, earth_date, camera);
+  console.log(sol ?? dateType === 'sol');
+  if (dateType === 'sol' && sol !== null) queries.push(`sol=${sol}`);
+  if (dateType === 'earth' && earth_date !== null) queries.push(`earth_date=${earth_date}`);
   if (camera) queries.push(`camera=${camera}`);
 
   callback(queries);
+};
+
+const handleClear = (event, queryCallback, loadedPhotosCallback) => {
+  event.preventDefault();
+  queryCallback([]);
+  loadedPhotosCallback([]);
 };
 
 const SearchPanel = () => {
@@ -23,6 +30,7 @@ const SearchPanel = () => {
     activeRovers,
     queryState: [query, setQuery],
     selectedRoverState: [selectedRover, setSelectedRover],
+    photosState: [loadedPhotos, setLoadedPhotos],
   } = React.useContext(QueryContext);
 
   const [camera, setCamera] = React.useState('');
@@ -68,6 +76,8 @@ const SearchPanel = () => {
               disabled={selectedRover.name === rover}
               onClick={(e) => {
                 e.preventDefault();
+                setQuery([]);
+                setCamera('');
                 setSelectedRover(activeRovers[rover]);
               }}
             >
@@ -164,10 +174,10 @@ const SearchPanel = () => {
             <button
               key={cam.name}
               type="button"
-              disabled={cam.name === camera}
+              disabled={cam.name.toLowerCase() === camera}
               onClick={(e) => {
                 e.preventDefault();
-                setCamera(cam.name);
+                setCamera(cam.name.toLowerCase());
               }}
             >
               {cam.name}
@@ -176,6 +186,12 @@ const SearchPanel = () => {
         </fieldset>
         <hr />
         <button type="submit">Search</button>
+        <button
+          type="button"
+          onClick={(e) => handleClear(e, setQuery, setLoadedPhotos)}
+        >
+          Clear
+        </button>
       </form>
     </article>
   );

@@ -15,6 +15,7 @@ export const activeRover = ({ name = '', data = null } = {}) => ({
         throw new Error({ status: response.status, error: response.error });
       }
       const payload = await response.json();
+      console.log(payload);
       return payload;
     } catch (error) {
       return { error };
