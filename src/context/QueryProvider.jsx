@@ -4,19 +4,21 @@ import activeRoverTypes from '../propTypes/activeRovers';
 
 export const QueryContext = React.createContext();
 
-const QueryProvider = ({ children, activeRovers }) => {
+const QueryProvider = ({ children, activeRovers, errorHandler }) => {
   const [query, setQuery] = React.useState([]);
   const [selectedRover, setSelectedRover] = React.useState(activeRovers.curiosity);
   const [loadedPhotos, setLoadedPhotos] = React.useState([]);
 
   React.useEffect(async () => {
-    /* if (query.lenght && selectedRover) {
-      setLoadedPhotos(activeRovers(selectedRover));
-    } */
     // TODO handle erroneous requests
     if (query.length) {
-      const { photos } = await selectedRover.fetchData(query, '/photos');
-      setLoadedPhotos(photos);
+      const { photos, error } = await selectedRover.fetchData('/photos', query);
+      if (error) {
+        console.log(photos, error);
+        errorHandler(error);
+      } else {
+        setLoadedPhotos(photos);
+      }
     }
   }, [query, selectedRover.data]);
 
@@ -37,6 +39,7 @@ export default QueryProvider;
 QueryProvider.propTypes = {
   children: PropTypes.oneOfType([PropTypes.element, PropTypes.func, PropTypes.object]),
   activeRovers: activeRoverTypes.isRequired,
+  errorHandler: PropTypes.func.isRequired,
 };
 
 QueryProvider.defaultProps = {

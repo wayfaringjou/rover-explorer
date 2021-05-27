@@ -9,7 +9,8 @@ const MainSection = () => {
     selectedRoverState: [selectedRover, setSelectedRover],
     photosState: [loadedPhotos, setLoadedPhotos],
   } = React.useContext(QueryContext);
-  if (loadedPhotos.length === 0) return <p>Empty</p>;
+
+  if (loadedPhotos?.length === 0) return <p>Empty</p>;
 
   return (
     <article id="main-section">

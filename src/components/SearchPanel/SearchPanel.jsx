@@ -52,13 +52,17 @@ const SearchPanel = () => {
   }
   const {
     data: {
-      name, cameras, max_sol, landing_date, max_date,
+      name, cameras, max_sol, landing_date, max_date, photo_manifest,
     },
   } = selectedRover;
 
   const parameters = {
     dateType, sol, earth_date: earthDate, camera,
   };
+
+  const currentPhotoIndex = dateType === 'sol'
+    ? photo_manifest?.photos.findIndex((manifest) => manifest.sol === parseInt(sol, 10))
+    : photo_manifest?.photos.findIndex((manifest) => manifest.earth_date === earthDate);
 
   return (
     <article id="search-panel">
@@ -78,6 +82,8 @@ const SearchPanel = () => {
                 e.preventDefault();
                 setQuery([]);
                 setCamera('');
+                setSol(0);
+                setEarthDate(activeRovers[rover].data.landing_date);
                 setSelectedRover(activeRovers[rover]);
               }}
             >
@@ -117,11 +123,15 @@ const SearchPanel = () => {
           <legend>Search photos by &apos;sol&apos; (mission day):</legend>
           <label htmlFor="sol-range">
             <p>{`${name} has photos from sol: 0 to sol: ${max_sol}`}</p>
+            <p>{`Sol ${sol} has ${photo_manifest.photos[currentPhotoIndex]?.total_photos ?? 'no'} photos available.`}</p>
             <input
               type="range"
               id="sol-range"
               value={sol}
-              onChange={({ target: { value } }) => setSol(value)}
+              onChange={({ target: { value } }) => {
+                setCamera('');
+                setSol(value);
+              }}
               min="0"
               max={max_sol}
               step="1"
@@ -130,7 +140,10 @@ const SearchPanel = () => {
               type="number"
               id="sol-range"
               value={sol}
-              onChange={({ target: { value } }) => setSol(value)}
+              onChange={({ target: { value } }) => {
+                setCamera('');
+                setSol(value);
+              }}
               min="0"
               max={max_sol}
             />
@@ -143,6 +156,7 @@ const SearchPanel = () => {
             <legend>Search photos by earth date:</legend>
             <label htmlFor="earth_date">
               <p>{`${name} has photos from ${landing_date} to ${max_date}`}</p>
+              <p>{`Earth date ${earthDate} has ${photo_manifest.photos[currentPhotoIndex]?.total_photos ?? 'no'} photos available.`}</p>
               <input
                 type="date"
                 name="earth_date"
@@ -150,7 +164,10 @@ const SearchPanel = () => {
                 min={landing_date}
                 max={max_date}
                 disabled={dateType !== 'earth'}
-                onChange={({ target: { value } }) => setEarthDate(value)}
+                onChange={({ target: { value } }) => {
+                  setCamera('');
+                  setEarthDate(value);
+                }}
                 value={earthDate}
               />
             </label>
@@ -170,17 +187,17 @@ const SearchPanel = () => {
           >
             All
           </button>
-          { cameras.map((cam) => (
+          {photo_manifest?.photos[currentPhotoIndex]?.cameras.map((cam) => (
             <button
-              key={cam.name}
+              key={cam}
               type="button"
-              disabled={cam.name.toLowerCase() === camera}
+              disabled={cam.toLowerCase() === camera}
               onClick={(e) => {
                 e.preventDefault();
-                setCamera(cam.name.toLowerCase());
+                setCamera(cam.toLowerCase());
               }}
             >
-              {cam.name}
+              {cam}
             </button>
           ))}
         </fieldset>

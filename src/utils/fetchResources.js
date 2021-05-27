@@ -3,8 +3,9 @@ import config from '../config/api';
 export const activeRover = ({ name = '', data = null } = {}) => ({
   name,
   data,
-  async fetchData(queries = [], subPath = '') {
+  async fetchData(subPath = '', queries = []) {
     const parsedQuery = queries.join('&');
+    let payload;
     try {
       const response = await fetch(`${config.API_BASEPATH}/rovers/${this.name}${subPath}${queries.length ? '?' : ''}${parsedQuery}`, {
         method: 'GET',
@@ -12,10 +13,13 @@ export const activeRover = ({ name = '', data = null } = {}) => ({
       });
 
       if (response.status !== 200) {
-        throw new Error({ status: response.status, error: response.error });
+        // console.error(await response.json());
+        payload = await response.json();
+
+        throw new Error(payload.error);
       }
-      const payload = await response.json();
-      console.log(payload);
+
+      payload = await response.json();
       return payload;
     } catch (error) {
       return { error };
@@ -23,10 +27,13 @@ export const activeRover = ({ name = '', data = null } = {}) => ({
   },
   async setRoverData() {
     try {
-      const { rover, error } = await this.fetchData();
+      const roverInfo = await this.fetchData();
+      if (roverInfo.error) throw roverInfo.error;
+      this.data = { ...roverInfo.rover };
 
-      if (error) throw error;
-      this.data = { ...rover };
+      const roverManifest = await this.fetchData('/manifest');
+      if (roverInfo.error) throw roverInfo.error;
+      this.data = { ...this.data, ...roverManifest };
       return this.data;
     } catch (error) {
       return Promise.reject(error);
