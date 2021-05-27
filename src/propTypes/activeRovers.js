@@ -23,6 +23,6 @@ const roverTypes = PropTypes.shape({
 export default PropTypes.shape({
   curiosity: roverTypes,
   opportunity: roverTypes,
-  spirit: roverDataTypes,
+  spirit: roverTypes,
   perseverance: roverTypes,
 });

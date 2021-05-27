@@ -17,7 +17,7 @@ const QueryProvider = ({ children, activeRovers, errorHandler }) => {
         console.log(photos, error);
         errorHandler(error);
       } else {
-        setLoadedPhotos(photos);
+        setLoadedPhotos([photos]);
       }
     }
   }, [query, selectedRover.data]);

@@ -1,6 +1,14 @@
 import * as React from 'react';
 
 import { QueryContext } from '../../context/QueryProvider';
+import useInterserctionObserver from '../../hooks/useIntersectionObserver';
+
+const PhotoPage = React.lazy(() => import('../PhotoPage'));
+const observerOptions = {
+  root: null,
+  rootMargin: '0px',
+  threshold: 0.5,
+};
 
 const MainSection = () => {
   const {
@@ -10,18 +18,18 @@ const MainSection = () => {
     photosState: [loadedPhotos, setLoadedPhotos],
   } = React.useContext(QueryContext);
 
+  const [setNode, entry] = useInterserctionObserver(observerOptions);
+  // React.useEffect();
+  console.log(entry);
   if (loadedPhotos?.length === 0) return <p>Empty</p>;
-
+  console.log(loadedPhotos);
   return (
     <article id="main-section">
-      {loadedPhotos.map((photo) => (
-        <img
-          key={photo.id}
-          alt={`${photo.rover.name} Date: ${photo.earth_date} ${photo.camera.full_name}`}
-          src={photo.img_src}
-          style={{ maxWidth: '200px', margin: '20px' }}
-        />
-      ))}
+      <React.Suspense fallback={<p>Loading</p>}>
+        { loadedPhotos.map((photoSet, i) => (
+          <PhotoPage photoSet={photoSet} index={i} key={`page-${i + 1}`} />
+        ))}
+      </React.Suspense>
     </article>
   );
 };

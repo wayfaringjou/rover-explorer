@@ -69,7 +69,13 @@ const SearchPanel = () => {
       <header>
         <h2>Search mars photos</h2>
       </header>
-      <form id="search-photos" onSubmit={(e) => assembleQueries(e, parameters, setQuery)}>
+      <form
+        id="search-photos"
+        onSubmit={(e) => {
+          setLoadedPhotos([]);
+          assembleQueries(e, parameters, setQuery);
+        }}
+      >
 
         <fieldset>
           <legend>Select Rover:</legend>
