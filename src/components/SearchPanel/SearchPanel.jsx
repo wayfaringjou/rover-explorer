@@ -65,12 +65,12 @@ const SearchPanel = () => {
 
   return (
     <article id="search-panel" className="box stack recursive">
-      <header className="box">
+      <header className="box bg-neutral-800 shadow">
         <h2>Search mars photos</h2>
       </header>
       <form
         id="search-photos"
-        className="box"
+        className=""
         onSubmit={(e) => {
           setLoadedPhotos([]);
           setManifestForQuery(photo_manifest.photos[currentPhotoIndex]);
@@ -78,12 +78,13 @@ const SearchPanel = () => {
         }}
       >
 
-        <fieldset className="box bg-neutral-400">
-          <legend className="bg-neutral-800">Select Rover:</legend>
+        <fieldset className="box bg-neutral-400 shadow">
+          <legend className="bg-neutral-800 shadow">Select Rover:</legend>
           {Object.keys(activeRovers).map((rover) => (
             <button
               key={rover}
               type="button"
+              className="toggle shutter shadow"
               disabled={selectedRover.name === rover}
               onClick={(e) => {
                 e.preventDefault();
@@ -99,8 +100,8 @@ const SearchPanel = () => {
           ))}
         </fieldset>
 
-        <fieldset className="box bg-neutral-400">
-          <legend className="bg-neutral-800">Select date type:</legend>
+        <fieldset className="box bg-neutral-400 shadow">
+          <legend className="bg-neutral-800 shadow">Select date type:</legend>
           <label htmlFor="sol-type">
             <input
               type="radio"
@@ -126,8 +127,8 @@ const SearchPanel = () => {
         </fieldset>
 
         {dateType === 'sol' && (
-        <fieldset disabled={dateType !== 'sol'} className="box bg-neutral-400">
-          <legend className="bg-neutral-800">Search photos by &apos;sol&apos; (mission day):</legend>
+        <fieldset disabled={dateType !== 'sol'} className="box bg-neutral-400 shadow">
+          <legend className="bg-neutral-800 shadow">Search photos by &apos;sol&apos; (mission day):</legend>
           <label htmlFor="sol-range">
             <p>{`${name} has photos from sol: 0 to sol: ${max_sol}`}</p>
             <p>{`Sol ${sol} has ${photo_manifest.photos[currentPhotoIndex]?.total_photos ?? 'no'} photos available.`}</p>
@@ -159,8 +160,8 @@ const SearchPanel = () => {
         )}
 
         {dateType === 'earth' && (
-          <fieldset disabled={dateType !== 'earth'} className="box bg-neutral-400">
-            <legend className="bg-neutral-800">Search photos by earth date:</legend>
+          <fieldset disabled={dateType !== 'earth'} className="box bg-neutral-400 shadow">
+            <legend className="bg-neutral-800 shadow">Search photos by earth date:</legend>
             <label htmlFor="earth_date">
               <p>{`${name} has photos from ${landing_date} to ${max_date}`}</p>
               <p>{`Earth date ${earthDate} has ${photo_manifest.photos[currentPhotoIndex]?.total_photos ?? 'no'} photos available.`}</p>
@@ -181,10 +182,11 @@ const SearchPanel = () => {
           </fieldset>
         )}
 
-        <fieldset className="box bg-neutral-400">
-          <legend className="bg-neutral-800">Select Camera:</legend>
+        <fieldset className="box bg-neutral-400 shadow">
+          <legend className="bg-neutral-800 shadow">Select Camera:</legend>
           <button
             key="all"
+            className="toggle shutter shadow"
             type="button"
             disabled={camera === ''}
             onClick={(e) => {
@@ -196,6 +198,7 @@ const SearchPanel = () => {
           </button>
           {photo_manifest?.photos[currentPhotoIndex]?.cameras.map((cam) => (
             <button
+              className="toggle shutter shadow"
               key={cam}
               type="button"
               disabled={cam.toLowerCase() === camera}
@@ -209,9 +212,10 @@ const SearchPanel = () => {
           ))}
         </fieldset>
         <hr />
-        <button type="submit">Search</button>
+        <button type="submit" className="shutter shadow">Search</button>
         <button
           type="button"
+          className="shutter shadow"
           onClick={(e) => handleClear(e, setQuery, setLoadedPhotos)}
         >
           Clear
