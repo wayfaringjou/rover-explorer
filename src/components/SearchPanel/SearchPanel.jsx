@@ -10,8 +10,6 @@ const assembleQueries = (
 ) => {
   event.preventDefault();
   const queries = [];
-  console.log(dateType, sol, earth_date, camera);
-  console.log(sol ?? dateType === 'sol');
   if (dateType === 'sol' && sol !== null) queries.push(`sol=${sol}`);
   if (dateType === 'earth' && earth_date !== null) queries.push(`earth_date=${earth_date}`);
   if (camera) queries.push(`camera=${camera}`);

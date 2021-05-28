@@ -18,7 +18,6 @@ const QueryProvider = ({ children, activeRovers, errorHandler }) => {
       const { photos, error } = await selectedRover.fetchData('/photos', query);
       setLoading(false);
       if (error) {
-        console.log(photos, error);
         errorHandler(error);
       } else if (photos?.length) {
         setLoadedPhotos([photos]);
