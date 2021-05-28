@@ -10,8 +10,6 @@ const assembleQueries = (
 ) => {
   event.preventDefault();
   const queries = [];
-  console.log(dateType, sol, earth_date, camera);
-  console.log(sol ?? dateType === 'sol');
   if (dateType === 'sol' && sol !== null) queries.push(`sol=${sol}`);
   if (dateType === 'earth' && earth_date !== null) queries.push(`earth_date=${earth_date}`);
   if (camera) queries.push(`camera=${camera}`);
@@ -31,6 +29,7 @@ const SearchPanel = () => {
     queryState: [query, setQuery],
     selectedRoverState: [selectedRover, setSelectedRover],
     photosState: [loadedPhotos, setLoadedPhotos],
+    manifestState: [manifestForQuery, setManifestForQuery],
   } = React.useContext(QueryContext);
 
   const [camera, setCamera] = React.useState('');
@@ -69,7 +68,14 @@ const SearchPanel = () => {
       <header>
         <h2>Search mars photos</h2>
       </header>
-      <form id="search-photos" onSubmit={(e) => assembleQueries(e, parameters, setQuery)}>
+      <form
+        id="search-photos"
+        onSubmit={(e) => {
+          setLoadedPhotos([]);
+          setManifestForQuery(photo_manifest.photos[currentPhotoIndex]);
+          assembleQueries(e, parameters, setQuery);
+        }}
+      >
 
         <fieldset>
           <legend>Select Rover:</legend>
