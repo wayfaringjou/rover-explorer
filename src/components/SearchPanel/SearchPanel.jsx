@@ -31,6 +31,7 @@ const SearchPanel = () => {
     queryState: [query, setQuery],
     selectedRoverState: [selectedRover, setSelectedRover],
     photosState: [loadedPhotos, setLoadedPhotos],
+    manifestState: [manifestForQuery, setManifestForQuery],
   } = React.useContext(QueryContext);
 
   const [camera, setCamera] = React.useState('');
@@ -73,6 +74,7 @@ const SearchPanel = () => {
         id="search-photos"
         onSubmit={(e) => {
           setLoadedPhotos([]);
+          setManifestForQuery(photo_manifest.photos[currentPhotoIndex]);
           assembleQueries(e, parameters, setQuery);
         }}
       >

@@ -3,11 +3,11 @@ import config from '../config/api';
 export const activeRover = ({ name = '', data = null } = {}) => ({
   name,
   data,
-  async fetchData(subPath = '', queries = []) {
+  async fetchData(subPath = '', queries = [], page = null) {
     const parsedQuery = queries.join('&');
     let payload;
     try {
-      const response = await fetch(`${config.API_BASEPATH}/rovers/${this.name}${subPath}${queries.length ? '?' : ''}${parsedQuery}`, {
+      const response = await fetch(`${config.API_BASEPATH}/rovers/${this.name}${subPath}${queries.length ? '?' : ''}${parsedQuery}${page !== null ? `&page=${page}` : ''}`, {
         method: 'GET',
         headers: { 'Content-type': 'application/json; charset=utf-8' },
       });

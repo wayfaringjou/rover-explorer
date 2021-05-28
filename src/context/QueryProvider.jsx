@@ -8,16 +8,22 @@ const QueryProvider = ({ children, activeRovers, errorHandler }) => {
   const [query, setQuery] = React.useState([]);
   const [selectedRover, setSelectedRover] = React.useState(activeRovers.curiosity);
   const [loadedPhotos, setLoadedPhotos] = React.useState([]);
+  const [manifestForQuery, setManifestForQuery] = React.useState({});
+  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(async () => {
     // TODO handle erroneous requests
     if (query.length) {
+      setLoading(true);
       const { photos, error } = await selectedRover.fetchData('/photos', query);
+      setLoading(false);
       if (error) {
         console.log(photos, error);
         errorHandler(error);
-      } else {
+      } else if (photos?.length) {
         setLoadedPhotos([photos]);
+      } else {
+        setLoadedPhotos([]);
       }
     }
   }, [query, selectedRover.data]);
@@ -26,6 +32,8 @@ const QueryProvider = ({ children, activeRovers, errorHandler }) => {
     queryState: [query, setQuery],
     selectedRoverState: [selectedRover, setSelectedRover],
     photosState: [loadedPhotos, setLoadedPhotos],
+    manifestState: [manifestForQuery, setManifestForQuery],
+    loadingState: [loading, setLoading],
     activeRovers,
   };
 
