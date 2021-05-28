@@ -22,13 +22,12 @@ const ImgCard = ({
         key={photo.id}
         alt={`${photo.rover.name} Date: ${photo.earth_date} ${photo.camera.full_name}`}
         src={photo.img_src}
-        style={{ maxHeight: '200px', margin: '20px' }}
         ref={pageIndex + 1 === loadedPages && index + 1 === pages && loaded ? observerRef : null}
         onLoad={() => setLoaded(true)}
       />
-      <figcaption>
+      <figcaption className="caption">
         <header>
-          <h4>{`${photo.rover.name}: Sol: ${photo.sol}`}</h4>
+          <h4 className="vt323">{`${photo.rover.name}: Sol: ${photo.sol}`}</h4>
         </header>
         <p>{`Camera: ${photo.camera.full_name}`}</p>
         <button
@@ -45,10 +44,10 @@ const ImgCard = ({
                   <header>
                     <h2>{photo.rover.name}</h2>
                   </header>
-                  <p>
+                  <p className="caption">
                     {`Date: ${photo.earth_date} Sol: ${photo.sol}`}
                   </p>
-                  <p>{`Camera: ${photo.camera.full_name}`}</p>
+                  <p className="caption">{`Camera: ${photo.camera.full_name}`}</p>
                 </figcaption>
               </figure>,
             );

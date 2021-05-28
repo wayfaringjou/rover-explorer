@@ -64,12 +64,13 @@ const SearchPanel = () => {
     : photo_manifest?.photos.findIndex((manifest) => manifest.earth_date === earthDate);
 
   return (
-    <article id="search-panel">
-      <header>
+    <article id="search-panel" className="box stack recursive">
+      <header className="box">
         <h2>Search mars photos</h2>
       </header>
       <form
         id="search-photos"
+        className="box"
         onSubmit={(e) => {
           setLoadedPhotos([]);
           setManifestForQuery(photo_manifest.photos[currentPhotoIndex]);
@@ -77,8 +78,8 @@ const SearchPanel = () => {
         }}
       >
 
-        <fieldset>
-          <legend>Select Rover:</legend>
+        <fieldset className="box bg-neutral-400">
+          <legend className="bg-neutral-800">Select Rover:</legend>
           {Object.keys(activeRovers).map((rover) => (
             <button
               key={rover}
@@ -98,8 +99,8 @@ const SearchPanel = () => {
           ))}
         </fieldset>
 
-        <fieldset>
-          <legend>Select date type:</legend>
+        <fieldset className="box bg-neutral-400">
+          <legend className="bg-neutral-800">Select date type:</legend>
           <label htmlFor="sol-type">
             <input
               type="radio"
@@ -125,8 +126,8 @@ const SearchPanel = () => {
         </fieldset>
 
         {dateType === 'sol' && (
-        <fieldset disabled={dateType !== 'sol'}>
-          <legend>Search photos by &apos;sol&apos; (mission day):</legend>
+        <fieldset disabled={dateType !== 'sol'} className="box bg-neutral-400">
+          <legend className="bg-neutral-800">Search photos by &apos;sol&apos; (mission day):</legend>
           <label htmlFor="sol-range">
             <p>{`${name} has photos from sol: 0 to sol: ${max_sol}`}</p>
             <p>{`Sol ${sol} has ${photo_manifest.photos[currentPhotoIndex]?.total_photos ?? 'no'} photos available.`}</p>
@@ -158,8 +159,8 @@ const SearchPanel = () => {
         )}
 
         {dateType === 'earth' && (
-          <fieldset disabled={dateType !== 'earth'}>
-            <legend>Search photos by earth date:</legend>
+          <fieldset disabled={dateType !== 'earth'} className="box bg-neutral-400">
+            <legend className="bg-neutral-800">Search photos by earth date:</legend>
             <label htmlFor="earth_date">
               <p>{`${name} has photos from ${landing_date} to ${max_date}`}</p>
               <p>{`Earth date ${earthDate} has ${photo_manifest.photos[currentPhotoIndex]?.total_photos ?? 'no'} photos available.`}</p>
@@ -180,8 +181,8 @@ const SearchPanel = () => {
           </fieldset>
         )}
 
-        <fieldset>
-          <legend>Select Camera:</legend>
+        <fieldset className="box bg-neutral-400">
+          <legend className="bg-neutral-800">Select Camera:</legend>
           <button
             key="all"
             type="button"

@@ -4,6 +4,8 @@ import {
 } from '..';
 import { activeRover } from '../../utils/fetchResources';
 import QueryProvider from '../../context/QueryProvider';
+import './App.css';
+
 /*
 - Header containing the application title
 - Search panel containing with subcomponents which allow the user to select the
@@ -52,7 +54,7 @@ function App() {
 
   return (
     <QueryProvider activeRovers={activeRovers} errorHandler={setErrors}>
-      <div className="App gradient">
+      <div className="App vignette">
         <ErrorMsg errorState={[errors, setErrors]} />
         <Header />
         <SearchPanel />
