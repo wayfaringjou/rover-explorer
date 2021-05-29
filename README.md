@@ -34,8 +34,12 @@ There are still a few kinks a have to fix. I would like to incorporate a user ac
 
 ## Built with
 
-This project was made with React, Javascript and CSS.
+This project was made with React, Javascript, HTML and CSS.
 
+## Enviroment Variables Needed to run/deploy
+Add a '.env' file with the following valiables:
+
+- REACT_APP_API_BASEPATH: *Base path of api part of the app (e.g. https://sleepy-taiga-08469.herokuapp.com/api)*
 ---
 
 # API INFO
