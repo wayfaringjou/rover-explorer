@@ -17,10 +17,6 @@ Sol and Camera defining the group of photos to be displayed
 
 function App() {
   const [errors, setErrors] = React.useState({});
-  console.log(errors);
-  // Data about rovers is requested on load
-  // Data is requested imperatively when search is done
-  // Data is requested with intersectionObserver callback page by page
   const [activeRovers, setActiveRovers] = React.useState({
     curiosity: activeRover({ name: 'curiosity' }),
     opportunity: activeRover({ name: 'opportunity' }),

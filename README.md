@@ -1,70 +1,107 @@
-# Getting Started with Create React App
+# 'Mars Rover Explorer'
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## [Live App](https://rover-explorer.vercel.app/)
 
-## Available Scripts
+## Description
 
-In the project directory, you can run:
+'Mars Rover Explorer' Let's you explore Mars' terrain through the lenses of the Rovers living in the Red Planet.
 
-### `yarn start`
+## Further goals for this project
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+There are still a few kinks a have to fix. I would like to incorporate a user account to offer further functionality like saving favorites. I would also like to spend more time on the CSS.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Screenshots
 
-### `yarn test`
+- Search Panel
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![Search Panel](./docs/screens/search-panel.png)
 
-### `yarn build`
+- Photo set
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![Photo Set](./docs/screens/photo-page.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Browse Photos
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![Photos](./docs/screens/photos.png)
 
-### `yarn eject`
+- View photos in detail
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+![Photo Detail](./docs/screens/viewer.png)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Summary
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+There are still a few kinks a have to fix. I would like to incorporate a user account to offer further functionality like saving favorites. I would also like to spend more time on the CSS.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Built with
 
-## Learn More
+This project was made with React, Javascript and CSS.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# API INFO
 
-### Code Splitting
+## Server side repo:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## [Rover-explorer-api](https://github.com/wayfaringjou/rover-explorer-api)
 
-### Analyzing the Bundle Size
+## [live-version](https://sleepy-taiga-08469.herokuapp.com/api)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## API documentation
 
-### Making a Progressive Web App
+### Resources in the REST API
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+#### Rovers
 
-### Advanced Configuration
+- Information about each rover.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+#### Photos
 
-### Deployment
+- Photos taken by rover by earth date or sol.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+#### Manifests
 
-### `yarn build` fails to minify
+- Data about each rover's photo collection.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Endpoints available
+
+#### /rovers/{rover-name}
+
+##### Actions
+
+- `GET /rovers/{rover-name}`
+
+  - Response:
+    - Information about the rover including status, photos taken and cameras available.
+
+#### /rovers/{rover-name}/photos
+
+##### Actions
+
+- `GET /rovers/{rover-name}/photos`
+
+  - Response:
+
+    - Set of photos for given parameters.
+
+  - Parameters
+
+    | name       |  type   | description                                                                                                     |
+    | :--------- | :-----: | :-------------------------------------------------------------------------------------------------------------- |
+    | sol        | integer | (Required, either this or earth_date) ranges from 0 to max found in endpoint                                    |
+    | earth_date | string  | (Required, either this or sol) Format YYYY-MM-DD                                                                |
+    | camera     | string  | If rover doesn't have a camera it returns an error. Check rovers info at /rovers/{rover-name} for it's cameras. |
+    | page       | integer | 25 per page returned                                                                                            |
+
+#### /rovers/{rover-name}/manifest
+
+##### Actions
+
+- `GET /rovers/{rover-name}/manifest`
+
+  - Response:
+
+    - A lot of data about photos for each mission day.
+
+## Server Built with
+
+This project was made with Express
