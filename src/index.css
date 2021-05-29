@@ -315,15 +315,143 @@ button.shutter.toggle:disabled:before {
   width: 0;
 }
 
+.radio {
+  display: grid;
+  grid-template-columns: min-content auto;
+  grid-gap: var(--s-1);
+}
+
+.radio-input {
+  display: flex;
+  align-items: center;
+}
+
+.radio-input input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.radio-control {
+  display: block;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  border: 0.125em solid rgb(var(--clr-neutral-900));
+}
+
+.radio-input input:checked + .radio-control {
+  background: radial-gradient(rgb(var(--clr-neutral-900)) 50%, rgba(255, 0, 0, 0) 51%);
+}
+
+.radio-input input:focus + .radio-control {
+  box-shadow: 0 0 0 0.125em rgb(var(--clr-neutral-300)), 0 0 0 0.25em rgb(var(--clr-neutral-900));
+}
+
+input[type=range] {
+  width: 100%;
+  margin: 12px 0;
+  background-color: transparent;
+  -webkit-appearance: none;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  background: #272100;
+  border: 0px solid rgba(0, 0, 0, 0);
+  border: 0;
+  border-radius: 8px;
+  width: 100%;
+  height: 8px;
+  cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  margin-top: -12px;
+  width: 8px;
+  height: 32px;
+  background: #272100;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #f8d200;
+}
+input[type=range]::-moz-range-track {
+  background: #272100;
+  border: 0px solid rgba(0, 0, 0, 0);
+  border: 0;
+  border-radius: 8px;
+  width: 100%;
+  height: 8px;
+  cursor: pointer;
+}
+input[type=range]::-moz-range-thumb {
+  width: 8px;
+  height: 32px;
+  background: #272100;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+input[type=range]::-ms-track {
+  background: transparent;
+  border-color: transparent;
+  border-width: 12px 0;
+  color: transparent;
+  width: 100%;
+  height: 8px;
+  cursor: pointer;
+}
+input[type=range]::-ms-fill-lower {
+  background: #000000;
+  border: 0px solid rgba(0, 0, 0, 0);
+  border: 0;
+  border-radius: 16px;
+}
+input[type=range]::-ms-fill-upper {
+  background: #272100;
+  border: 0px solid rgba(0, 0, 0, 0);
+  border: 0;
+  border-radius: 16px;
+}
+input[type=range]::-ms-thumb {
+  width: 8px;
+  height: 32px;
+  background: #272100;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 0px;
+  /*Needed to keep the Edge thumb centred*/
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #272100;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #f8d200;
+}
+/*TODO: Use one of the selectors from https://stackoverflow.com/a/20541859/7077589 and figure out
+how to remove the virtical space around the range input in IE*/
+@supports (-ms-ime-align:auto) {
+  /* Pre-Chromium Edge only styles, selector taken from hhttps://stackoverflow.com/a/32202953/7077589 */
+  input[type=range] {
+    margin: 0;
+    /*Edge starts the margin from the thumb, not the track as other browsers do*/
+  }
+}
+
 /* Composition */
 
 /* Utilities */
 
-/* Utilities : 'Primitives' */
+/* Utilities: 'Primitives' */
 
 /* Box */
 .box {
-  padding: var(--s1);
+  padding: var(--s0);
   outline: 0.125rem solid transparent;
   outline-offset: -0.125rem;
 }
