@@ -1,5 +1,6 @@
 import * as React from 'react';
 import dayjs from 'dayjs';
+import './SearchPanel.css';
 
 import { QueryContext } from '../../context/QueryProvider';
 
@@ -64,12 +65,13 @@ const SearchPanel = () => {
     : photo_manifest?.photos.findIndex((manifest) => manifest.earth_date === earthDate);
 
   return (
-    <article id="search-panel">
-      <header>
+    <article id="search-panel" className="box stack">
+      <header className="box bg-neutral-800 shadow">
         <h2>Search mars photos</h2>
       </header>
       <form
         id="search-photos"
+        className=""
         onSubmit={(e) => {
           setLoadedPhotos([]);
           setManifestForQuery(photo_manifest.photos[currentPhotoIndex]);
@@ -77,56 +79,68 @@ const SearchPanel = () => {
         }}
       >
 
-        <fieldset>
-          <legend>Select Rover:</legend>
-          {Object.keys(activeRovers).map((rover) => (
-            <button
-              key={rover}
-              type="button"
-              disabled={selectedRover.name === rover}
-              onClick={(e) => {
-                e.preventDefault();
-                setQuery([]);
-                setCamera('');
-                setSol(0);
-                setEarthDate(activeRovers[rover].data.landing_date);
-                setSelectedRover(activeRovers[rover]);
-              }}
-            >
-              {activeRovers[rover]?.data.name}
-            </button>
-          ))}
+        <fieldset id="rover-select" className="box bg-neutral-400 shadow">
+          <legend className="bg-neutral-800 shadow">Select Rover:</legend>
+          <div className="cluster">
+            <div className="cluster-int">
+              {Object.keys(activeRovers).map((rover) => (
+                <button
+                  key={rover}
+                  type="button"
+                  className="toggle shutter shadow"
+                  disabled={selectedRover.name === rover}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setQuery([]);
+                    setCamera('');
+                    setSol(0);
+                    setEarthDate(activeRovers[rover].data.landing_date);
+                    setSelectedRover(activeRovers[rover]);
+                  }}
+                >
+                  {activeRovers[rover]?.data.name}
+                </button>
+
+              ))}
+            </div>
+          </div>
         </fieldset>
 
-        <fieldset>
-          <legend>Select date type:</legend>
-          <label htmlFor="sol-type">
-            <input
-              type="radio"
-              id="sol-type"
-              name="date-type"
-              value="sol"
-              checked={dateType === 'sol'}
-              onChange={({ target: { value } }) => setDateType(value)}
-            />
-            Sol
+        <fieldset id="type-select" className="box bg-neutral-400 shadow stack">
+          <legend className="bg-neutral-800 shadow">Select date type:</legend>
+          <label htmlFor="sol-type" className="radio">
+            <span className="radio-input">
+              <input
+                type="radio"
+                id="sol-type"
+                name="date-type"
+                value="sol"
+                checked={dateType === 'sol'}
+                onChange={({ target: { value } }) => setDateType(value)}
+              />
+              <span className="radio-control" />
+            </span>
+            <span className="radio-label">Sol</span>
           </label>
-          <label htmlFor="earth-type">
-            <input
-              type="radio"
-              id="earth-type"
-              name="date-type"
-              value="earth"
-              checked={dateType === 'earth'}
-              onChange={({ target: { value } }) => setDateType(value)}
-            />
-            Earth Date
+          <label htmlFor="earth-type" className="radio">
+            <span className="radio-input">
+              <input
+                type="radio"
+                id="earth-type"
+                name="date-type"
+                value="earth"
+                checked={dateType === 'earth'}
+                onChange={({ target: { value } }) => setDateType(value)}
+              />
+              <span className="radio-control" />
+            </span>
+            <span className="radio-label">Earth Date</span>
           </label>
         </fieldset>
 
         {dateType === 'sol' && (
-        <fieldset disabled={dateType !== 'sol'}>
-          <legend>Search photos by &apos;sol&apos; (mission day):</legend>
+        <fieldset disabled={dateType !== 'sol'} id="sol-select" className="box bg-neutral-400 shadow stack">
+          <legend className="bg-neutral-800 shadow">Search photos by &apos;sol&apos; (mission day):</legend>
           <label htmlFor="sol-range">
             <p>{`${name} has photos from sol: 0 to sol: ${max_sol}`}</p>
             <p>{`Sol ${sol} has ${photo_manifest.photos[currentPhotoIndex]?.total_photos ?? 'no'} photos available.`}</p>
@@ -158,9 +172,9 @@ const SearchPanel = () => {
         )}
 
         {dateType === 'earth' && (
-          <fieldset disabled={dateType !== 'earth'}>
-            <legend>Search photos by earth date:</legend>
-            <label htmlFor="earth_date">
+          <fieldset disabled={dateType !== 'earth'} id="earth-select" className="box bg-neutral-400 shadow stack">
+            <legend className="bg-neutral-800 shadow">Search photos by earth date:</legend>
+            <label htmlFor="earth_date" className="stack">
               <p>{`${name} has photos from ${landing_date} to ${max_date}`}</p>
               <p>{`Earth date ${earthDate} has ${photo_manifest.photos[currentPhotoIndex]?.total_photos ?? 'no'} photos available.`}</p>
               <input
@@ -180,41 +194,53 @@ const SearchPanel = () => {
           </fieldset>
         )}
 
-        <fieldset>
-          <legend>Select Camera:</legend>
-          <button
-            key="all"
-            type="button"
-            disabled={camera === ''}
-            onClick={(e) => {
-              e.preventDefault();
-              setCamera('');
-            }}
-          >
-            All
-          </button>
-          {photo_manifest?.photos[currentPhotoIndex]?.cameras.map((cam) => (
-            <button
-              key={cam}
-              type="button"
-              disabled={cam.toLowerCase() === camera}
-              onClick={(e) => {
-                e.preventDefault();
-                setCamera(cam.toLowerCase());
-              }}
-            >
-              {cam}
-            </button>
-          ))}
+        <fieldset id="camera-select" className="box bg-neutral-400 shadow">
+          <legend className="bg-neutral-800 shadow">Select Camera:</legend>
+          <div className="cluster">
+            <div className="cluster-int">
+              <button
+                key="all"
+                className="toggle shutter shadow"
+                type="button"
+                disabled={camera === ''}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setCamera('');
+                }}
+              >
+                All
+              </button>
+              {photo_manifest?.photos[currentPhotoIndex]?.cameras.map((cam) => (
+                <button
+                  className="toggle shutter shadow"
+                  key={cam}
+                  type="button"
+                  disabled={cam.toLowerCase() === camera}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setCamera(cam.toLowerCase());
+                  }}
+                >
+                  {cam}
+                </button>
+              ))}
+            </div>
+          </div>
         </fieldset>
-        <hr />
-        <button type="submit">Search</button>
-        <button
-          type="button"
-          onClick={(e) => handleClear(e, setQuery, setLoadedPhotos)}
-        >
-          Clear
-        </button>
+        <div id="submit-clear" className="box">
+          <div className="cluster">
+            <div className="cluster-int">
+              <button type="submit" className="shutter shadow">Search</button>
+              <button
+                type="button"
+                className="shutter shadow"
+                onClick={(e) => handleClear(e, setQuery, setLoadedPhotos)}
+              >
+                Clear
+              </button>
+            </div>
+          </div>
+        </div>
       </form>
     </article>
   );

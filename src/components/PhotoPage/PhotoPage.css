@@ -1,0 +1,15 @@
+.photo-set.cluster > * {
+  justify-content: center;
+}
+
+.page-header > h3 {
+  border-top: thin solid rgb(var(--clr-neutral-900));
+}
+
+.photo-page a {
+  display: block;
+  color: currentColor;
+  font-size: var(--ts2);
+  padding: var(--s2);
+  margin: var(--s2);
+}
