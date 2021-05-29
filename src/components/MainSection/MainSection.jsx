@@ -64,7 +64,7 @@ const MainSection = () => {
   const [viewerOpen, setViewerOpen] = React.useState(false);
   const [magnifiedImg, setMagnifiedImg] = React.useState('');
 
-  if (loadedPhotos?.length === 0) return <p>Empty</p>;
+  if (query?.length && loadedPhotos?.length === 0) return <p>Empty</p>;
   return (
     <>
       <article id="main-section">
