@@ -1,12 +1,32 @@
 #search-panel form {
   display: grid;
   /* grid-template-columns: repeat(auto-fit, minmax(min(38ch, 100%), 1fr)); */
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 1fr;
   gap: var(--s1);
 }
 
-#rover-select {
-  grid-column: auto / span 4;
+@media only screen and (min-width: 42em) {
+  #search-panel form {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  #rover-select {
+    grid-column: auto / span 4;
+  }
+  #type-select {
+    grid-column: auto / span 1;
+  }
+  #sol-select {
+    grid-column: auto / span 3;
+  }
+  #earth-select {
+    grid-column: auto / span 3;
+  }
+  #camera-select {
+    grid-column: auto / span 4;
+  }
+  #submit-clear {
+    grid-column: auto / span 4;
+  }
 }
 
 #rover-select button {
@@ -14,25 +34,8 @@
   height: calc(var(--s1) * 2.25);
 }
 
-#type-select {
-  grid-column: auto / span 1;
-}
-#sol-select {
-  grid-column: auto / span 3;
-}
-#earth-select {
-  grid-column: auto / span 3;
-}
-
 #earth-select input {
   width: fit-content;
-}
-
-#camera-select {
-  grid-column: auto / span 4;
-}
-#submit-clear {
-  grid-column: auto / span 4;
 }
 
 #search-panel .cluster > * {
