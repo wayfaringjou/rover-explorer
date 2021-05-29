@@ -3,6 +3,7 @@ import * as React from 'react';
 
 import { QueryContext } from '../../context/QueryProvider';
 import ImgViewer from '../ImgViewer/ImgViewer';
+import './MainSection.css';
 
 const PhotoPage = React.lazy(() => import('../PhotoPage'));
 const observerOptions = {

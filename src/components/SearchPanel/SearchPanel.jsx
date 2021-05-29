@@ -106,7 +106,7 @@ const SearchPanel = () => {
           </div>
         </fieldset>
 
-        <fieldset id="type-select" className="box bg-neutral-400 shadow">
+        <fieldset id="type-select" className="box bg-neutral-400 shadow stack">
           <legend className="bg-neutral-800 shadow">Select date type:</legend>
           <label htmlFor="sol-type" className="radio">
             <span className="radio-input">
@@ -139,7 +139,7 @@ const SearchPanel = () => {
         </fieldset>
 
         {dateType === 'sol' && (
-        <fieldset disabled={dateType !== 'sol'} id="sol-select" className="box bg-neutral-400 shadow">
+        <fieldset disabled={dateType !== 'sol'} id="sol-select" className="box bg-neutral-400 shadow stack">
           <legend className="bg-neutral-800 shadow">Search photos by &apos;sol&apos; (mission day):</legend>
           <label htmlFor="sol-range">
             <p>{`${name} has photos from sol: 0 to sol: ${max_sol}`}</p>
@@ -172,9 +172,9 @@ const SearchPanel = () => {
         )}
 
         {dateType === 'earth' && (
-          <fieldset disabled={dateType !== 'earth'} id="earth-select" className="box bg-neutral-400 shadow">
+          <fieldset disabled={dateType !== 'earth'} id="earth-select" className="box bg-neutral-400 shadow stack">
             <legend className="bg-neutral-800 shadow">Search photos by earth date:</legend>
-            <label htmlFor="earth_date">
+            <label htmlFor="earth_date" className="stack">
               <p>{`${name} has photos from ${landing_date} to ${max_date}`}</p>
               <p>{`Earth date ${earthDate} has ${photo_manifest.photos[currentPhotoIndex]?.total_photos ?? 'no'} photos available.`}</p>
               <input

@@ -1,0 +1,27 @@
+.img-viewer.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(var(--clr-neutral-900), 0.9);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+}
+
+.image-viewer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(var(--clr-neutral-300));
+  padding: var(--s2);
+  z-index: 1000;
+  width: 95vw;
+  border-radius: 0.5rem;
+}
+
+.image-viewer img {
+  max-height: 60vh;
+  max-width: 100%;
+}

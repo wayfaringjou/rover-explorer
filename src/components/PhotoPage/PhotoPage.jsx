@@ -2,6 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import photoTypes from '../../propTypes/photo';
 import { QueryContext } from '../../context/QueryProvider';
+import './PhotoPage.css';
 
 const ImgCard = React.lazy(() => import('../ImgCard'));
 
@@ -24,7 +25,7 @@ const PhotoPage = ({
         <h3>{`Page ${pageIndex + 1}`}</h3>
         <p>{`Photos ${pageIndex * 25 + 1}-${photoSet.length * (pageIndex + 1)} from ${total_photos} (All cameras)`}</p>
       </header>
-      <section className="photo-set cluster">
+      <section className="photo-set box cluster">
         <div className="cluster-int">
           {photoSet.map((photo, i, a) => (
             <ImgCard
@@ -41,7 +42,7 @@ const PhotoPage = ({
           ))}
         </div>
       </section>
-      <a href="#page-1">Return to top</a>
+      <a href="#page-1">^ Return to top</a>
     </section>
   );
 };

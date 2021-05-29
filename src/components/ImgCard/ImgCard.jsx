@@ -1,6 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import photoTypes from '../../propTypes/photo';
+import './ImgCard.css';
 
 const ImgCard = ({
   photo,
@@ -13,11 +14,11 @@ const ImgCard = ({
 }) => {
   const [loaded, setLoaded] = React.useState(false);
   return (
-    <figure>
+    <figure className="photo-thumb">
       <img
         id={photo.id}
         width="auto"
-        height="200"
+        height="288"
         loading="lazy"
         key={photo.id}
         alt={`${photo.rover.name} Date: ${photo.earth_date} ${photo.camera.full_name}`}
@@ -32,6 +33,7 @@ const ImgCard = ({
         <p>{`Camera: ${photo.camera.full_name}`}</p>
         <button
           type="button"
+          className="shutter shadow"
           onClick={() => {
             setMagnifiedImg(
               <figure>
@@ -54,9 +56,10 @@ const ImgCard = ({
             setViewerOpen(true);
           }}
         >
-          Magnify
+          Enhance
         </button>
       </figcaption>
+      <div className="overlay" />
     </figure>
   );
 };

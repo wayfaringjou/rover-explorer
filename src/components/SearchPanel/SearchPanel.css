@@ -8,6 +8,12 @@
 #rover-select {
   grid-column: auto / span 4;
 }
+
+#rover-select button {
+  font-size: var(--ts2);
+  height: calc(var(--s1) * 2.25);
+}
+
 #type-select {
   grid-column: auto / span 1;
 }
@@ -17,6 +23,11 @@
 #earth-select {
   grid-column: auto / span 3;
 }
+
+#earth-select input {
+  width: fit-content;
+}
+
 #camera-select {
   grid-column: auto / span 4;
 }
