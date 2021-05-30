@@ -30,7 +30,7 @@ There are still a few kinks a have to fix. I would like to incorporate a user ac
 
 ## Summary
 
-There are still a few kinks a have to fix. I would like to incorporate a user account to offer further functionality like saving favorites. I would also like to spend more time on the CSS.
+Photos are displayed when a search is submitted. Each query requires a rover and a date. It can be further customized by selecting one of the available cameras from a certain date. Dates can be selected by sol (mission day) or earth's date. When browsing the photos, they will load in 25 increments while scrolling.
 
 ## Built with
 
@@ -40,6 +40,10 @@ This project was made with React, Javascript, HTML and CSS.
 Add a '.env' file with the following valiables:
 
 - REACT_APP_API_BASEPATH: *Base path of api part of the app (e.g. https://sleepy-taiga-08469.herokuapp.com/api)*
+
+## Running locally
+To run to locally, clone this repo and the [API's repo](https://github.com/wayfaringjou/rover-explorer-api). Make sure to be running the server part of the app and to install required packages with `npm install`. After that run `npm start` to run or `npm build` to build. 
+
 ---
 
 # API INFO
